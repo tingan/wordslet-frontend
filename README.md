@@ -1,6 +1,9 @@
 # wordslet-frontend
 a simplified quizlet clone
 
+# wath video demo in youtube
+https://www.youtube.com/shorts/3IJtJpiFbYQ
+
 # wordslet-backend
 https://github.com/tingan/wordslet-backend
 
