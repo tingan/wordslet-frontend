@@ -20,6 +20,7 @@ function App() {
 
   return (
     <div className="App flex flex-col min-h-screen">
+     <ScrollToTop />
       <Router>
         <Nav />
         <div className="main flex-grow mx-3">
