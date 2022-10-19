@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FcPrevious, FcNext } from "react-icons/fc";
 import { BiFirstPage, BiLastPage } from "react-icons/bi";
-import { AiFillEye } from "react-icons/ai";
+import { AiFillEye, AiFillEdit } from "react-icons/ai";
 import { GrTest } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { get_user } from "../util/utils";
 
 function MyWordbooks() {
   const [wordbooks, setWordbooks] = useState([]);
@@ -13,6 +14,8 @@ function MyWordbooks() {
   const [count, setCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const user = get_user();
+
   const goPrevious = () => {
     setCurrentPage(currentPage - 1);
   };
@@ -129,6 +132,14 @@ function MyWordbooks() {
               >
                 <GrTest />
               </Link>
+              {book.uid == user.id && (
+                <Link
+                  to={`/wordbook/${book._id}/edit`}
+                  className="hover:scale-150"
+                >
+                  <AiFillEdit />
+                </Link>
+              )}
             </div>
           </div>
         ))}
