@@ -81,3 +81,8 @@ export function shuffle(arr) {
 
   return array;
 }
+
+export function appendObjTo(thatArray, newObj) {
+  const frozenObj = Object.freeze(newObj);
+  return Object.freeze(thatArray.concat(frozenObj));
+}

@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import { appendObjTo } from "../util/utils";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -22,6 +22,7 @@ import Confetti from "react-confetti";
 function LearnWordbook() {
   const { width, height } = useWindowSize();
   const [title, setTitle] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState("");
   const [showDefinition, setShowDefinition] = useState(false);
   const [authorId, setAuthorId] = useState("");
@@ -48,6 +49,10 @@ function LearnWordbook() {
 
   const handleAnswerWithChange = (e) => {
     setAnswerWith(e.target.value);
+  };
+
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
   };
 
   const onSlideChange = (swiper) => {
@@ -121,7 +126,8 @@ function LearnWordbook() {
       words2[index]["answer_term"] = ans;
       //words2[index]['answered']=false
     });
-    setAnswer(words2);
+
+    setAnswer(words2.slice(0, quantity));
     swiperRef.current.swiper.slideTo(0, 1, false);
     setCountAnswered(0);
     setCountCorrect(0);
@@ -136,10 +142,19 @@ function LearnWordbook() {
       answer[index]["correct"] = true;
     } else {
       answer[index]["correct"] = false;
+      setErrorBook(
+        appendObjTo(errorBook, {
+          term: term,
+          definition: definition,
+          error: ans.text,
+        })
+      );
+      /*
       setErrorBook([
         ...errorBook,
         { term: term, definition: definition, error: ans.text },
       ]);
+      */
     }
     setAnswerCliked(true);
     await sleep(1500);
@@ -158,6 +173,7 @@ function LearnWordbook() {
       setTitle(wordbook.title);
       setDescription(wordbook.description);
       setWords(wordbook.words);
+      setQuantity(wordbook.words.length);
     });
   }, [wordbook_id]);
 
@@ -234,6 +250,18 @@ function LearnWordbook() {
             </label>
           </div>
         </div>
+        <div className="flex items-center mr-4">
+          <label htmlFor="quantity">Quantity </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            min="1"
+            max={words.length}
+            value={quantity}
+            onChange={handleQuantityChange}
+          />
+        </div>
         <button
           type="button"
           onClick={shuffle_questions}
@@ -262,7 +290,7 @@ function LearnWordbook() {
       >
         {answer.map((word, index) => (
           <SwiperSlide className="flex flex-col" key={index}>
-            <span className="inline-flex justify-center items-center absolute right-1 top-1 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full p-3">
+            <span className="inline-flex justify-center items-center absolute right-1 top-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full p-3">
               {index + 1 + "/" + answer.length}
             </span>
             {answerWith == "definition" ? (
@@ -283,7 +311,7 @@ function LearnWordbook() {
                   <button
                     type="button"
                     disabled={answerClicked}
-                    className={`text-lg ${
+                    className={`text-xl ${
                       answerClicked && ans.isCorrect ? "btn-outline-green" : ""
                     } ${
                       answerClicked && !ans.isCorrect ? "btn-outline-red" : ""
@@ -357,7 +385,7 @@ function LearnWordbook() {
         ))}
       </Swiper>
 
-      {errorBook.length > 1 && (
+      {errorBook.length > 0 && (
         <div className="overflow-x-auto relative mt-5">
           <table className="w-fit text-sm text-left text-gray-500 dark:text-gray-400 gap-2 mx-auto">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

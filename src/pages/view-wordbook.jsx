@@ -171,7 +171,7 @@ function ViewWordbook() {
       >
         {words.map((word, index) => (
           <SwiperSlide className="flex flex-col" key={index}>
-            <span className="inline-flex justify-center items-center absolute right-1 top-1 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full p-3">
+            <span className="inline-flex justify-center items-center absolute right-1 top-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full p-3">
               {index + 1 + "/" + words.length}
             </span>
             <h2 className="text-6xl font-sans font-bold mb-2"> {word.term} </h2>

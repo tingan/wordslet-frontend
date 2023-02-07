@@ -123,6 +123,7 @@ function EditWordbook() {
           <AiFillEye />
         </Link>
       </div>
+
       <div className="mb-6">
         <label htmlFor="title" className="form-label">
           Title
@@ -149,6 +150,21 @@ function EditWordbook() {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+      <button type="button" className="btn-red mb-2" onClick={deleteWordbook}>
+        Delete Wordbook
+      </button>
+      <button type="submit" className="btn-blue mt-2 mb-2">
+        Update Wordbook
+      </button>
+      <button
+        type="button"
+        className="btn-blue mt-2 mb-2"
+        onClick={() =>
+          setWords((prevWords) => [{ term: "", definition: "" }, ...prevWords])
+        }
+      >
+        Add card
+      </button>
       <DndProvider backend={HTML5Backend}>
         {words.map((word, index) => (
           <WordItem
@@ -161,21 +177,6 @@ function EditWordbook() {
           />
         ))}
       </DndProvider>
-      <button
-        type="button"
-        className="btn-blue mt-10 mb-2"
-        onClick={() =>
-          setWords((prevWords) => [...prevWords, { term: "", definition: "" }])
-        }
-      >
-        Add card
-      </button>
-      <button type="button" className="btn-red" onClick={deleteWordbook}>
-        Delete Wordbook
-      </button>
-      <button type="submit" className="btn-blue mt-2">
-        Update Wordbook
-      </button>
     </form>
   );
 }

@@ -137,7 +137,6 @@ function CreateWordbook() {
           ))}
         </DndProvider>
       )}
-
       <button
         type="button"
         className="btn-blue mt-10 mb-2"
